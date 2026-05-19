@@ -80,21 +80,71 @@ header {
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 22px;
+  gap: 12px;
+  font-size: 21px;
   font-weight: 800;
   letter-spacing: 0;
 }
 
-.logo-mark {
-  width: 38px;
-  height: 38px;
+.logo-emblem {
+  position: relative;
+  width: 42px;
+  height: 42px;
   display: grid;
   place-items: center;
-  color: white;
-  background: var(--brand);
-  border-radius: var(--radius);
-  font-weight: 900;
+  flex: 0 0 auto;
+  overflow: hidden;
+  color: #f8e6b2;
+  background:
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.24), transparent 24%),
+    linear-gradient(145deg, #06080d 0%, #171d29 48%, #030407 100%);
+  border: 1px solid rgba(224, 179, 93, 0.72);
+  border-radius: 8px;
+  box-shadow:
+    0 12px 24px rgba(8, 13, 22, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.logo-emblem::before,
+.logo-emblem::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.logo-emblem::before {
+  inset: 6px;
+  border: 1px solid rgba(248, 230, 178, 0.5);
+  border-radius: 5px;
+  transform: rotate(45deg);
+}
+
+.logo-emblem::after {
+  width: 24px;
+  height: 24px;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(255, 245, 210, 0.88) 50%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, rgba(255, 245, 210, 0.88) 50%, transparent 54%);
+  opacity: 0.52;
+  transform: rotate(45deg);
+}
+
+.logo-emblem-core {
+  position: relative;
+  z-index: 1;
+  font-family: "Times New Roman", "Microsoft YaHei", serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 8px rgba(255, 223, 148, 0.35);
+}
+
+.logo-wordmark {
+  color: #111827;
+  font-family: "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.04em;
 }
 
 .nav-links {
@@ -549,6 +599,105 @@ section {
   color: #d9fffb;
 }
 
+.booking {
+  background: #f2f5f8;
+}
+
+.booking-panel {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 34px;
+  align-items: stretch;
+  padding: 34px;
+  color: white;
+  background:
+    linear-gradient(135deg, rgba(7, 10, 15, 0.94), rgba(20, 27, 40, 0.94)),
+    url("/assets/hero-computers.jpg") center/cover;
+  border: 1px solid rgba(224, 179, 93, 0.28);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.booking-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 460px;
+}
+
+.booking-copy h2 {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.booking-copy p {
+  margin: 18px 0 0;
+  color: #dbe4ef;
+}
+
+.booking-points {
+  display: grid;
+  gap: 10px;
+  margin-top: 28px;
+  color: #f8e6b2;
+  font-weight: 700;
+}
+
+.booking-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 22px;
+  color: #17202a;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-radius: var(--radius);
+}
+
+.booking-form label {
+  display: grid;
+  gap: 7px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  color: #111827;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.booking-form textarea {
+  resize: vertical;
+}
+
+.booking-note,
+.booking-submit,
+.booking-status {
+  grid-column: 1 / -1;
+}
+
+.booking-submit {
+  width: 100%;
+}
+
+.booking-status {
+  margin: 0;
+  color: var(--brand-dark);
+  font-size: 14px;
+  font-weight: 800;
+}
+
 footer {
   padding: 34px 0;
   color: #cbd5e1;
@@ -627,6 +776,11 @@ footer {
     align-items: flex-start;
     flex-direction: column;
   }
+
+  .booking-panel,
+  .booking-form {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 520px) {
@@ -657,5 +811,13 @@ footer {
 
   .btn {
     width: 100%;
+  }
+
+  .booking-panel {
+    padding: 22px;
+  }
+
+  .booking-form {
+    padding: 16px;
   }
 }

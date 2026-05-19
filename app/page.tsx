@@ -1,5 +1,6 @@
 "use client";
 
+import type { FormEvent } from "react";
 import { useState } from "react";
 
 type Product = {
@@ -114,6 +115,7 @@ export default function Home() {
   const [comparedProducts, setComparedProducts] = useState<Set<string>>(
     () => new Set()
   );
+  const [bookingStatus, setBookingStatus] = useState("");
 
   function handleCompare(name: string) {
     setComparedProducts((current) => {
@@ -124,6 +126,18 @@ export default function Home() {
     window.setTimeout(() => {
       window.alert(`${name} 已加入对比清单，欢迎到店查看详细配置。`);
     }, 80);
+  }
+
+  function handleBookingSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const customerName = String(data.get("customerName") || "客户").trim();
+
+    setBookingStatus(
+      `${customerName}，预约信息已收到，门店顾问会尽快与你确认到店时间。`
+    );
+    form.reset();
   }
 
   return (
@@ -138,8 +152,10 @@ export default function Home() {
       <header>
         <nav className={`nav${isMenuOpen ? " open" : ""}`} id="nav">
           <a className="logo" href="#">
-            <span className="logo-mark">星</span>
-            <span>星启电脑</span>
+            <span className="logo-emblem" aria-hidden="true">
+              <span className="logo-emblem-core">XQ</span>
+            </span>
+            <span className="logo-wordmark">星启电脑</span>
           </a>
           <button
             className="mobile-menu"
@@ -151,17 +167,33 @@ export default function Home() {
             {isMenuOpen ? "×" : "☰"}
           </button>
           <div className="nav-links">
-            <a href="#products">热卖电脑</a>
-            <a href="#categories">产品分类</a>
-            <a href="#services">门店服务</a>
-            <a href="#contact">联系我们</a>
+            <a href="#products" onClick={() => setIsMenuOpen(false)}>
+              热卖电脑
+            </a>
+            <a href="#categories" onClick={() => setIsMenuOpen(false)}>
+              产品分类
+            </a>
+            <a href="#services" onClick={() => setIsMenuOpen(false)}>
+              门店服务
+            </a>
+            <a href="#contact" onClick={() => setIsMenuOpen(false)}>
+              联系我们
+            </a>
           </div>
           <div className="nav-actions">
-            <a className="btn btn-soft" href="#products">
+            <a
+              className="btn btn-soft"
+              href="#products"
+              onClick={() => setIsMenuOpen(false)}
+            >
               查看现货
             </a>
-            <a className="btn btn-primary" href="#contact">
-              预约装机
+            <a
+              className="btn btn-primary"
+              href="#quick-booking"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              快速预约
             </a>
           </div>
         </nav>
@@ -333,6 +365,73 @@ export default function Home() {
             <a className="btn btn-soft" href="tel:4006682026">
               立即电话咨询
             </a>
+          </div>
+        </section>
+
+        <section className="booking" id="quick-booking">
+          <div className="section-inner booking-panel">
+            <div className="booking-copy">
+              <span className="eyebrow">快速预约</span>
+              <h2>留下需求，到店前先配好方案。</h2>
+              <p>
+                填写预算、用途和方便到店的时间，顾问会提前准备 2-3 套配置，减少现场等待。
+              </p>
+              <div className="booking-points">
+                <span>15 分钟内初步响应</span>
+                <span>支持装机、验机、旧机置换</span>
+                <span>到店可直接看现货</span>
+              </div>
+            </div>
+
+            <form className="booking-form" onSubmit={handleBookingSubmit}>
+              <label>
+                姓名
+                <input
+                  name="customerName"
+                  type="text"
+                  placeholder="请输入姓名"
+                  required
+                />
+              </label>
+              <label>
+                手机号
+                <input
+                  name="phone"
+                  type="tel"
+                  placeholder="用于确认预约"
+                  required
+                />
+              </label>
+              <label>
+                预约需求
+                <select name="need" defaultValue="装机咨询">
+                  <option>装机咨询</option>
+                  <option>购买笔记本</option>
+                  <option>升级维修</option>
+                  <option>旧机置换</option>
+                </select>
+              </label>
+              <label>
+                到店时间
+                <input name="visitTime" type="datetime-local" required />
+              </label>
+              <label className="booking-note">
+                预算与备注
+                <textarea
+                  name="message"
+                  rows={4}
+                  placeholder="例如：预算 7000，主要玩游戏，也希望能直播"
+                />
+              </label>
+              <button className="btn btn-primary booking-submit" type="submit">
+                提交预约
+              </button>
+              {bookingStatus ? (
+                <p className="booking-status" role="status">
+                  {bookingStatus}
+                </p>
+              ) : null}
+            </form>
           </div>
         </section>
       </main>
